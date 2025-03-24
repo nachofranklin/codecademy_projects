@@ -6,12 +6,12 @@ import os
 
 # Ideas to investigate
 
-# what species have the most observations
-# what parks have the most observations of fish and amphibians
-# what parks have the most endangered species
-# what category has the most endangered species
-# what category has the highest percentage of endangered species
-# do endangered species have fewer observations than recovering species on average (probably have to look specifically at one category)
+# done - what species have the most observations
+# boring - what parks have the most observations of fish and amphibians
+# done - what parks have the most endangered species
+# done - what category has the most endangered species
+# done - what category has the highest percentage of endangered species
+# not enough data - do endangered species have fewer observations than recovering species on average (probably have to look specifically at one category)
 
 PATH = f'C:{os.sep}Users{os.sep}Natha{os.sep}Documents{os.sep}code{os.sep}GitHub{os.sep}codecademy_projects{os.sep}Data Analyst{os.sep}biodiversity_starter'
 obs_df = pd.read_csv(os.path.join(PATH, 'observations.csv'), delimiter=',')
@@ -48,14 +48,14 @@ cons_status = spec_df['conservation_status'].unique()
 # What category of species has the most observations?
 
 top_species = merged_df.groupby('category')['observations'].sum().sort_values(ascending=False)
-# sns.barplot(x=top_species.index, y=top_species.values, hue=top_species.index, palette='pastel')
-# plt.xlabel('Species')
-# plt.ylabel('Observations')
-# plt.title('Total observations of different species\nacross all four National Parks')
-# plt.xticks(rotation=30)
-# plt.ticklabel_format(style='plain', axis='y')
-# plt.show()
-# plt.close()
+sns.barplot(x=top_species.index, y=top_species.values, hue=top_species.index, palette='pastel')
+plt.xlabel('Species')
+plt.ylabel('Observations')
+plt.title('Total observations of different species\nacross all four National Parks')
+plt.xticks(rotation=30)
+plt.ticklabel_format(style='plain', axis='y')
+plt.show()
+plt.close()
 
 # What park has the most endangered species? (! Not Threatened)
 # Species of Concern, Endangered, Threatened, In Recovery, Not Threatened
@@ -69,36 +69,36 @@ conservation = conservation_df.groupby('park_name')['observations'].sum().sort_v
 # # plt.xticks(rotation=30)
 # # plt.show()
 # # plt.close()
-# plt.pie(conservation, explode=(0.1, 0, 0, 0), autopct='%0.1f%%')
-# plt.title('Which Park has the most sightings of conservation species?')
-# plt.legend(title='National Park', labels=conservation.index)
-# plt.axis('equal')
-# plt.show()
-# plt.close()
+plt.pie(conservation, explode=(0.1, 0, 0, 0), autopct='%0.1f%%')
+plt.title('Which Park has the most sightings of conservation species?')
+plt.legend(title='National Park', labels=conservation.index)
+plt.axis('equal')
+plt.show()
+plt.close()
 
 # What category has the most endangered species?
 
 endangered = conservation_df.groupby('category')['observations'].sum().sort_values(ascending=False)
-# sns.barplot(x=endangered.index, y=endangered.values, hue=endangered.index, palette='pastel')
-# plt.xlabel('Species')
-# plt.ylabel('Observations')
-# plt.title('Which category has the most sightings of any conservation species?')
-# plt.xticks(rotation=30)
-# plt.show()
-# plt.close()
+sns.barplot(x=endangered.index, y=endangered.values, hue=endangered.index, palette='pastel')
+plt.xlabel('Species')
+plt.ylabel('Observations')
+plt.title('Which category has the most sightings of any conservation species?')
+plt.xticks(rotation=30)
+plt.show()
+plt.close()
 
 # What category has the highest percentage of endangered species?
 
 cons_percent = pd.merge(top_species, endangered, on='category')
 cons_percent['conservation_percentage'] = round(cons_percent['observations_y'] / cons_percent['observations_x'] * 100, 1)
 cons_percent = cons_percent.reset_index().rename(columns={'index': 'category'})
-# sns.barplot(data=cons_percent, x='category', y='conservation_percentage', hue='category', palette='pastel')
-# plt.xlabel('Species')
-# plt.ylabel('Percentage of species in conservation sightings / %')
-# plt.title('Percentage of observations which are conserved')
-# plt.xticks(rotation=30)
-# plt.show()
-# plt.close()
+sns.barplot(data=cons_percent, x='category', y='conservation_percentage', hue='category', palette='pastel')
+plt.xlabel('Species')
+plt.ylabel('Percentage of species in conservation sightings / %')
+plt.title('Percentage of observations with a conservation status')
+plt.xticks(rotation=30)
+plt.show()
+plt.close()
 
 
 # notes
